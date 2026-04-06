@@ -54,6 +54,8 @@ async function handlePR(payload) {
     pull_number: prNumber,
   })
 
+  console.log('files', files)
+
   const diff = files.data
     .map(file => `File: ${file.filename}\n${file.patch || ""}`)
     .join("\n\n")
@@ -80,6 +82,7 @@ const octokit = new Octokit({
 
 app.post("/webhook", async (req, res) => {
   const event = req.headers["x-github-event"]
+  console.log('req', req)
 
   if (event === "pull_request") {
     const action = req.body.action
