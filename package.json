@@ -5,8 +5,7 @@
   "main": "src/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-      "start": "node src/app.js"
-
+    "start": "node src/app.js"
   },
   "keywords": [],
   "author": "CHIMDINMA AND ODILI",
@@ -16,6 +15,7 @@
     "@anthropic-ai/sdk": "^0.82.0",
     "@octokit/auth-app": "^8.2.0",
     "@octokit/rest": "^22.0.1",
+    "dotenv": "^17.4.1",
     "express": "^5.2.1"
   }
 }

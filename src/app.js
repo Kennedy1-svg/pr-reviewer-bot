@@ -2,6 +2,8 @@ const express = require("express")
 const { Octokit } = require("@octokit/rest")
 const { createAppAuth } = require("@octokit/auth-app")
 const Anthropic = require("@anthropic-ai/sdk")
+dotenv = require("dotenv").config()
+
 
 const app = express()
 app.use(express.json())
