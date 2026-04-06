@@ -63,18 +63,18 @@ async function handlePR(payload) {
   await postComment(owner.login, repo.name, prNumber, review)
 }
 
-// const anthropic = new Anthropic({
-//   apiKey: process.env.ANTHROPIC_API_KEY,
-// })
+const anthropic = new Anthropic({
+  apiKey: process.env.ANTHROPIC_API_KEY,
+})
 
-// const octokit = new Octokit({
-//   authStrategy: createAppAuth,
-//   auth: {
-//     appId: process.env.APP_ID,
-//     privateKey: process.env.PRIVATE_KEY,
-//     installationId: process.env.INSTALLATION_ID,
-//   },
-// })
+const octokit = new Octokit({
+  authStrategy: createAppAuth,
+  auth: {
+    appId: process.env.APP_ID,
+    privateKey: process.env.PRIVATE_KEY,
+    // installationId: process.env.INSTALLATION_ID,
+  },
+})
 
 app.post("/webhook", async (req, res) => {
   const event = req.headers["x-github-event"]
@@ -89,6 +89,11 @@ app.post("/webhook", async (req, res) => {
 
   res.sendStatus(200)
 })
+
+app.get("/", (req, res) => {
+  res.send("Hello World!")
+})
+
 
   app.listen(3000, () => {
     console.log("Server is running on port 3000")   
