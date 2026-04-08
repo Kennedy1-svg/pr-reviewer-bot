@@ -45,19 +45,19 @@ async function postComment(owner, repo, prNumber, comment) {
 }
 
 async function handlePR(payload) {
-  come.log('Received PR event', { payload })
-  const { owner, repo } = payload.repository
+  console.log('Received PR event', { payload }) // also fix typo: come.log ❌
+
+  const owner = payload.repository.owner.login
+  const repo = payload.repository.name
   const prNumber = payload.pull_request.number
 
-  console.log('Handling PR', { owner: owner, repo: repo, prNumber })
+  console.log('Handling PR', { owner, repo, prNumber })
 
   const files = await octokit.pulls.listFiles({
-    owner: owner.login,
-    repo: repo.name,
+    owner,
+    repo,
     pull_number: prNumber,
   })
-
-  console.log('files', files)
 
   const diff = files.data
     .map(file => `File: ${file.filename}\n${file.patch || ""}`)
@@ -67,7 +67,7 @@ async function handlePR(payload) {
 
   const review = await reviewWithClaude(diff)
 
-  await postComment(owner.login, repo.name, prNumber, review)
+  await postComment(owner, repo, prNumber, review)
 }
 
 const anthropic = new Anthropic({
@@ -79,7 +79,7 @@ const octokit = new Octokit({
   auth: {
     appId: process.env.APP_ID,
     privateKey: process.env.PRIVATE_KEY,
-    // installationId: process.env.INSTALLATION_ID,
+    installationId: process.env.INSTALLATION_ID,
   },
 })
 
