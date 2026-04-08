@@ -9,6 +9,7 @@ const app = express()
 app.use(express.json())
 
 async function reviewWithClaude(diff) {
+  console.log('Reviewing with Claude', { diff }) // log the diff being sent to Claude
   const res = await anthropic.messages.create({
     model: "claude-3-5-sonnet-20241022",
     max_tokens: 800,
@@ -30,6 +31,8 @@ ${diff}
       },
     ],
   })
+
+
 
   return res.content[0].text
 }
@@ -59,13 +62,20 @@ async function handlePR(payload) {
     pull_number: prNumber,
   })
 
+  console.log('files', files)
+
   const diff = files.data
     .map(file => `File: ${file.filename}\n${file.patch || ""}`)
     .join("\n\n")
 
+
+    console.log('Generated diff', { diff }) // log the generated diff
+
   if (!diff) return
 
   const review = await reviewWithClaude(diff)
+
+  console.log('Generated review', { review })
 
   await postComment(owner, repo, prNumber, review)
 }
@@ -85,7 +95,7 @@ const octokit = new Octokit({
 
 app.post("/webhook", async (req, res) => {
   const event = req.headers["x-github-event"]
-  console.log('req', req)
+  // console.log('req', req)
 
   if (event === "pull_request") {
     const action = req.body.action
