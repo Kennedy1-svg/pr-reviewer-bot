@@ -84,12 +84,19 @@ const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 })
 
+// console.log('Anthropic client initialized', { anthropic }) // log the initialized Anthropic client
+console.log('Environment variables', {
+  APP_ID: process.env.APP_ID,
+  INSTALLATION_ID: process.env.INSTALLATION_ID,
+  ANTHROPIC_API_KEY: process.env.ANTHROPIC_API_KEY ? '***' : 'not set', // don't log the actual API key
+  privateKey: process.env.PRIVATE_KEY ? '***' : 'not set' // don't log the actual private key
+})
 const octokit = new Octokit({
   authStrategy: createAppAuth,
   auth: {
-    appId: parseInt(process.env.APP_ID, 10), // ✅ safest
+    appId: Number(process.env.APP_ID), // ✅ safest
     privateKey: process.env.PRIVATE_KEY.replace(/\\n/g, '\n'),
-    installationId: parseInt(process.env.INSTALLATION_ID, 10) 
+    installationId: Number(process.env.INSTALLATION_ID) 
   },
 })
 
