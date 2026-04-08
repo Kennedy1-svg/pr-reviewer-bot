@@ -89,9 +89,11 @@ const octokit = new Octokit({
   auth: {
     appId: Number(process.env.APP_ID),
     privateKey: process.env.PRIVATE_KEY,
-    installationId: process.env.INSTALLATION_ID,
+    installationId: Number(process.env.INSTALLATION_ID),
   },
 })
+
+console.log('App initialized with Octokit and Anthropic',typeof process.env.APP_ID, typeof process.env.INSTALLATION_ID)
 
 app.post("/webhook", async (req, res) => {
   const event = req.headers["x-github-event"]
