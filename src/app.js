@@ -45,8 +45,11 @@ async function postComment(owner, repo, prNumber, comment) {
 }
 
 async function handlePR(payload) {
+  come.log('Received PR event', { payload })
   const { owner, repo } = payload.repository
   const prNumber = payload.pull_request.number
+
+  console.log('Handling PR', { owner: owner, repo: repo, prNumber })
 
   const files = await octokit.pulls.listFiles({
     owner: owner.login,
