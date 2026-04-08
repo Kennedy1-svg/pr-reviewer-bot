@@ -87,9 +87,9 @@ const anthropic = new Anthropic({
 const octokit = new Octokit({
   authStrategy: createAppAuth,
   auth: {
-    appId: Number(process.env.APP_ID),
-    privateKey: process.env.PRIVATE_KEY,
-    installationId: Number(process.env.INSTALLATION_ID),
+    appId: parseInt(process.env.APP_ID, 10), // ✅ safest
+    privateKey: process.env.PRIVATE_KEY.replace(/\\n/g, '\n'),
+    installationId: parseInt(process.env.INSTALLATION_ID, 10) 
   },
 })
 
