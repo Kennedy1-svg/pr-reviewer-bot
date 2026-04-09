@@ -11,7 +11,7 @@ app.use(express.json())
 async function reviewWithClaude(diff) {
   console.log('Reviewing with Claude', { diff }) // log the diff being sent to Claude
   const res = await anthropic.messages.create({
-    model: "claude-3-5-sonnet-20241022",
+    model: "claude-opus-4-6",
     max_tokens: 800,
     messages: [
       {
